@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emoji Match Game</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="game-container">
+        <header>
+            <h1>Emoji Match Game</h1>
+            <p>Moves: <span id="move-counter">0</span> | Time: <span id="timer">00:00</span></p>
+            <button onclick="window.location.href='../arcade.html'">Return to Arcade</button>
+        </header>
+        <main class="match-game-board">
+            <!-- Cards will be dynamically generated here -->
+        </main>
+    </div>
+    <script>
+        const emojis = ["😀", "😃", "😄", "😁", "😆", "😅", "😂", "🤣"];
+const cardsArray = emojis.concat(emojis);  // We have pairs, so we duplicate the array
+let flippedCards = [];
+let moves = 0;
+let gameStarted = false;
+let startTime;
+let timerInterval;
+
+// Shuffle function
+function shuffle(array) {
+    let currentIndex = array.length, randomIndex;
+
+    while (currentIndex !== 0) {
+        randomIndex = Math.floor(Math.random() * currentIndex);
+        currentIndex--;
+
+        [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
+    }
+
+    return array;
+}
+
+// Start a new game
+function startNewGame() {
+    const shuffledCards = shuffle(cardsArray);
+    const board = document.querySelector('.match-game-board');
+    board.innerHTML = '';  // Clear current cards
+
+    // Create cards
+    shuffledCards.forEach(emoji => {
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.innerHTML = `
+            <div class="card-front"></div>
+            <div class="card-back">${emoji}</div>
+        `;
+        card.addEventListener('click', handleCardClick);
+        board.appendChild(card);
+    });
+
+    // Reset moves and timer
+    moves = 0;
+    document.getElementById('move-counter').textContent = moves;
+    clearInterval(timerInterval);
+    document.getElementById('timer').textContent = '00:00';
+    gameStarted = false;
+}
+
+// Handle card click
+function handleCardClick(event) {
+    const card = event.currentTarget;
+
+    // Start timer on first card click
+    if (!gameStarted) {
+        gameStarted = true;
+        startTime = Date.now();
+        timerInterval = setInterval(updateTimer, 1000);
+    }
+
+    // Flip the card
+    if (!card.classList.contains('flipped') && flippedCards.length < 2) {
+        card.classList.add('flipped');
+        flippedCards.push(card);
+
+        // Check for match if two cards are flipped
+        if (flippedCards.length === 2) {
+            moves++;
+            document.getElementById('move-counter').textContent = moves;
+
+            const [card1, card2] = flippedCards;
+            if (card1.querySelector('.card-back').textContent === card2.querySelector('.card-back').textContent) {
+                // Match found
+                flippedCards = [];
+            } else {
+                // No match, flip cards back after a delay
+                setTimeout(() => {
+                    card1.classList.remove('flipped');
+                    card2.classList.remove('flipped');
+                    flippedCards = [];
+                }, 1000);
+            }
+        }
+    }
+
+    // Check for win
+    if (document.querySelectorAll('.card.flipped').length === cardsArray.length) {
+        clearInterval(timerInterval);
+        setTimeout(() => {
+            alert('Congratulations! You completed the game in ' + moves + ' moves and ' + document.getElementById('timer').textContent + ' minutes.');
+            startNewGame();
+        }, 500);
+    }
+}
+
+// Update the timer
+function updateTimer() {
+    const now = Date.now();
+    const elapsedTime = Math.floor((now - startTime) / 1000);
+    const minutes = String(Math.floor(elapsedTime / 60)).padStart(2, '0');
+    const seconds = String(elapsedTime % 60).padStart(2, '0');
+    document.getElementById('timer').textContent = minutes + ':' + seconds;
+}
+
+// Start the game when the page loads
+startNewGame();
+
+
+    </script>
+</body>
+</html>
