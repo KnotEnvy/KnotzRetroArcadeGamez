@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hangman</title>
+    <link rel="stylesheet" href="hangman_styles.css">
+</head>
+<body>
+    <div class="game-container">
+        <header>
+            <h1>Hangman</h1>
+            <button onclick="window.location.href='arcade.html'">Return to Arcade</button>
+        </header>
+        <main>
+            <!-- Inside <main> and replacing the .hangman-display div -->
+            <div class="hangman-display">
+                <svg width="150" height="200" viewBox="0 0 150 200">
+                    <!-- Gallows -->
+                    <line x1="10" y1="190" x2="140" y2="190" stroke="black" stroke-width="4"></line>
+                    <line x1="75" y1="10" x2="75" y2="190" stroke="black" stroke-width="4"></line>
+                    <line x1="75" y1="10" x2="125" y2="10" stroke="black" stroke-width="4"></line>
+                    <line x1="125" y1="10" x2="125" y2="30" stroke="black" stroke-width="4"></line>
+
+                    <!-- Head -->
+                    <circle cx="125" cy="45" r="15" stroke="black" stroke-width="4" fill="none" id="hangman-head" visibility="hidden"></circle>
+
+                    <!-- Body -->
+                    <line x1="125" y1="60" x2="125" y2="100" stroke="black" stroke-width="4" id="hangman-body" visibility="hidden"></line>
+
+                    <!-- Left Arm -->
+                    <line x1="125" y1="70" x2="110" y2="85" stroke="black" stroke-width="4" id="hangman-left-arm" visibility="hidden"></line>
+
+                    <!-- Right Arm -->
+                    <line x1="125" y1="70" x2="140" y2="85" stroke="black" stroke-width="4" id="hangman-right-arm" visibility="hidden"></line>
+
+                    <!-- Left Leg -->
+                    <line x1="125" y1="100" x2="110" y2="130" stroke="black" stroke-width="4" id="hangman-left-leg" visibility="hidden"></line>
+
+                    <!-- Right Leg -->
+                    <line x1="125" y1="100" x2="140" y2="130" stroke="black" stroke-width="4" id="hangman-right-leg" visibility="hidden"></line>
+                </svg>
+            </div>
+
+            <div class="word-display">
+                <!-- Underscores or Letters Here -->
+            </div>
+            <div class="guesses">
+                <!-- Display Incorrect Guesses Here -->
+            </div>
+            <div class="input-section">
+                <input type="text" id="letter-input" maxlength="1" placeholder="Guess a letter">
+                <button onclick="makeGuess()">Guess</button>
+            </div>
+        </main>
+    </div>
+    <script>
+        const words = ['programming', 'javascript', 'hangman', 'arcade', 'retro'];
+        let currentWord = '';
+        let revealedWord = '';
+        let incorrectGuesses = [];
+
+        function startNewGame() {
+            currentWord = words[Math.floor(Math.random() * words.length)];
+            revealedWord = '_'.repeat(currentWord.length);
+            incorrectGuesses = [];
+            renderGame();
+        }
+
+        function renderGame() {
+            // Display the revealed word
+            document.querySelector('.word-display').textContent = revealedWord.split('').join(' ');
+
+            // Display incorrect guesses
+            document.querySelector('.guesses').textContent = incorrectGuesses.join(', ');
+
+        // Update hangman figure based on incorrect guess count
+        const hangmanParts = [
+                'hangman-head',
+                'hangman-body',
+                'hangman-left-arm',
+                'hangman-right-arm',
+                'hangman-left-leg',
+                'hangman-right-leg'
+            ];
+            
+            for (let i = 0; i < hangmanParts.length; i++) {
+                const part = document.getElementById(hangmanParts[i]);
+                if (i < incorrectGuesses.length) {
+                    part.setAttribute('visibility', 'visible');
+                } else {
+                    part.setAttribute('visibility', 'hidden');
+                }
+            }
+        }
+
+
+        function makeGuess() {
+            let input = document.getElementById('letter-input');
+            let guessedLetter = input.value.toLowerCase();
+
+            if (guessedLetter && !incorrectGuesses.includes(guessedLetter) && !revealedWord.includes(guessedLetter)) {
+                if (currentWord.includes(guessedLetter)) {
+                    // Correct guess
+                    for (let i = 0; i < currentWord.length; i++) {
+                        if (currentWord[i] === guessedLetter) {
+                            revealedWord = revealedWord.substr(0, i) + guessedLetter + revealedWord.substr(i + 1);
+                        }
+                    }
+                } else {
+                    // Incorrect guess
+                    incorrectGuesses.push(guessedLetter);
+                }
+            }
+
+            input.value = '';  // Clear input
+            renderGame();
+            checkGameStatus();
+        }
+
+        function checkGameStatus() {
+            if (revealedWord === currentWord) {
+                alert('Congratulations! You guessed the word!');
+                startNewGame();
+            } else if (incorrectGuesses.length >= 6) {
+                alert('Game Over! The word was ' + currentWord);
+                startNewGame();
+            }
+        }
+
+        // Start the game when the page loads
+        startNewGame();
+
+
+    </script>
+</body>
+</html>

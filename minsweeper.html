@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minesweeper</title>
+    <link rel="stylesheet" href="minesweeper_styles.css">
+  </head>
+
+  <body>
+    <div class="game-container">
+      <header>
+        <h1>Minesweeper</h1>
+        <button id="startGame">Start Game</button>
+        <div class="board"></div>
+        <button onclick="window.location.href='arcade.html'">Return to Arcade</button>
+      </header>
+      <main>
+        <div class="board"></div>
+      </main>
+    </div>
+    <script>
+      document.getElementById('startGame').addEventListener('click', function() {
+        // Initialize and render the board
+        initializeBoard();
+        renderBoard();
+
+        // Hide the start button after the game has started
+        document.getElementById('startGame').style.display = 'none';
+      });
+
+      const boardEl = document.querySelector('.board');
+      const numRows = 8;
+      const numCols = 8;
+      const numMines = 10;
+      let board = [];
+
+      function initializeBoard() {
+        board = [];
+        for (let i = 0; i < numRows; i++) {
+          let row = [];
+          for (let j = 0; j < numCols; j++) {
+            row.push({
+              isMine: false,
+              isRevealed: false,
+              isFlagged: false
+            });
+          }
+          board.push(row);
+        }
+
+        // Randomly place mines
+        let minesPlaced = 0;
+        while (minesPlaced < numMines) {
+          let randRow = Math.floor(Math.random() * numRows);
+          let randCol = Math.floor(Math.random() * numCols);
+          if (!board[randRow][randCol].isMine) {
+            board[randRow][randCol].isMine = true;
+            minesPlaced++;
+          }
+        }
+      }
+
+      initializeBoard();
+
+      function renderBoard() {
+        boardEl.innerHTML = ''; // Clear the existing board
+        for (let i = 0; i < numRows; i++) {
+          for (let j = 0; j < numCols; j++) {
+            let cellEl = document.createElement('div');
+            cellEl.classList.add('cell');
+            if (board[i][j].isFlagged) {
+              cellEl.classList.add('flagged');
+            }
+            if (board[i][j].isRevealed) {
+              cellEl.classList.add('revealed');
+              if (board[i][j].isMine) {
+                cellEl.textContent = '💣';
+              } else {
+                let minesAdjacent = countAdjacentMines(i, j);
+                if (minesAdjacent > 0) {
+                  cellEl.textContent = minesAdjacent;
+                }
+              }
+            }
+            cellEl.addEventListener('click', () => handleCellClick(i, j));
+            cellEl.addEventListener('contextmenu', (e) => {
+              e.preventDefault();
+              handleCellRightClick(i, j);
+            });
+            boardEl.appendChild(cellEl);
+          }
+        }
+      }
+
+      function countAdjacentMines(row, col) {
+        let count = 0;
+        for (let i = -1; i <= 1; i++) {
+          for (let j = -1; j <= 1; j++) {
+            if (i === 0 && j === 0) continue; // Skip the current cell
+            if (isValidCell(row + i, col + j) && board[row + i][col + j].isMine) {
+              count++;
+            }
+          }
+        }
+        return count;
+      }
+
+      function isValidCell(row, col) {
+        return row >= 0 && col >= 0 && row < numRows && col < numCols;
+      }
+
+      function checkWin() {
+        for (let i = 0; i < numRows; i++) {
+          for (let j = 0; j < numCols; j++) {
+            if (!board[i][j].isMine && !board[i][j].isRevealed) {
+              return false; // Found a non-revealed, non-mine cell
+            }
+          }
+        }
+        return true; // All non-mine cells are revealed
+      }
+
+      function handleCellClick(row, col) {
+        if (board[row][col].isFlagged || board[row][col].isRevealed) {
+          return; // Skip if the cell is flagged or already revealed
+        }
+
+        if (board[row][col].isMine) {
+          // Game over logic (player clicked on a mine)
+          revealAllMines();
+          alert("Game Over!");
+          initializeBoard();
+          renderBoard();
+          return;
+        }
+
+        // Reveal the clicked cell
+        board[row][col].isRevealed = true;
+        let minesAdjacent = countAdjacentMines(row, col);
+        if (minesAdjacent === 0) {
+          // If there are no adjacent mines, reveal the neighboring cells too
+          revealAdjacentCells(row, col);
+        }
+
+        renderBoard();
+        // Check for win after each cell click
+        if (checkWin()) {
+          alert("Congratulations! You've won!");
+          initializeBoard();
+          renderBoard();
+        }
+      }
+
+      function handleCellRightClick(row, col) {
+        if (board[row][col].isRevealed) {
+          return; // Skip if the cell is already revealed
+        }
+
+        // Toggle the flagged status of the cell
+        board[row][col].isFlagged = !board[row][col].isFlagged;
+        renderBoard();
+      }
+
+      function revealAllMines() {
+        for (let i = 0; i < numRows; i++) {
+          for (let j = 0; j < numCols; j++) {
+            if (board[i][j].isMine) {
+              board[i][j].isRevealed = true;
+            }
+          }
+        }
+      }
+
+      function revealAdjacentCells(row, col) {
+        for (let i = -1; i <= 1; i++) {
+          for (let j = -1; j <= 1; j++) {
+            if (i === 0 && j === 0) continue; // Skip the current cell
+            let newRow = row + i;
+            let newCol = col + j;
+            if (isValidCell(newRow, newCol) && !board[newRow][newCol].isRevealed) {
+              board[newRow][newCol].isRevealed = true;
+              let minesAdjacent = countAdjacentMines(newRow, newCol);
+              if (minesAdjacent === 0) {
+                revealAdjacentCells(newRow, newCol); // Recursive reveal
+              }
+            }
+          }
+        }
+      }
+
+    </script>
+  </body>
+
+</html>
+
