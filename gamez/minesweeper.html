@@ -9,17 +9,16 @@
   </head>
 
   <body>
-    <div class="game-container">
-      <header>
-        <h1>Minesweeper</h1>
-        <button id="startGame">Start Game</button>
-        <div class="board"></div>
-        <button onclick="window.location.href='../arcade.html'">Return to Arcade</button>
-      </header>
-      <main>
-        <div class="board"></div>
-      </main>
-    </div>
+    <div class="arcade-container">
+      <div id="startScreen" style="display: block; text-align: center; margin-top: 50px;">
+    <header>
+      <h1>Minesweeper</h1>
+      <button id="startGame">Start Game</button>
+      <div class="board"></div>
+      <button onclick="window.location.href='../arcade.html'">Return to Arcade</button>
+    </header>
+  </div>
+
     <script>
       document.getElementById('startGame').addEventListener('click', function() {
         // Initialize and render the board
