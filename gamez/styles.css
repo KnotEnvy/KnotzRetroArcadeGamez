@@ -4,18 +4,87 @@ body {
     font-family: 'Press Start 2P', cursive;
     text-align: center;
     background-image: url('bg.jpg');
-    background-position: center;     /* Center the background */
-    background-repeat: no-repeat;    /* Don't repeat the background image */
-    background-size: cover;          /* Resize the background image to cover the entire container */
-    display: flex;
+    background-position: center;    
+    background-repeat: no-repeat;
+    background-size: cover;
     justify-content: center;
     align-items: center;
     height: 100vh;
+    width:100vw;
     color: #333;
 
 }
+/* ... [existing styles] ... */
 
-/* ... [existing styles] */
+/* Game Selection Grid */
+.main {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);  /* 2 games per row for wider screens */
+    gap: 20px;
+    padding: 20px;
+    justify-items: center;  /* Centers the game-card elements horizontally in each grid cell */
+
+}
+
+/* Game Card Style */
+.game-card {
+    border: 2px solid #a8e063;
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+    transition: transform 0.3s;
+    max-width: 100%; /* Ensure the card doesn't exceed its container's width */
+
+}
+
+.game-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 20px rgba(0, 255, 0, 0.4);
+}
+
+/* Game Card Image (Can be a screenshot or icon of the game) */
+.game-card img {
+    max-width: 100%;  /* or any desired percentage */
+    margin: 0 auto;  /* center the image horizontally */
+    display: block;  /* ensures margin auto works */
+}
+
+/* Game Card Style for larger screens */
+@media (min-width: 768px) {
+    .game-card {
+        width: 250px;  /* You can adjust this value based on your preference */
+    }
+}
+
+/* Game Card Style for smaller screens */
+@media (max-width: 767px) {
+    .game-card {
+        width: 90%;  /* Adjust to fit smaller screens */
+        margin: 0 auto;
+    }
+    .main {
+        grid-template-columns: 1fr; /* Stack game cards vertically on smaller screens */
+    }
+
+}
+
+
+/* Game Card Title */
+.game-card-title {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.7);
+    color: #fff;
+    text-align: center;
+    padding: 10px;
+    font-size: 24px;
+}
+
+/* ... [rest of the styles] ... */
+
+
 
 .arcade-container {
     max-width: 600px;
@@ -26,6 +95,8 @@ body {
     border-radius: 15px;
     border: 5px solid #a8e063;
     box-shadow: 0 0 25px 20px rgba(0, 255, 0, 0.3);
+    display: grid;
+
 }
 .arcade-container::before,
 .arcade-container::after {
@@ -47,6 +118,10 @@ h1, h2, h3 {
     color: #a244a5; 
     margin-bottom: 10px;
 }
+.game-container, body {
+    opacity: 0;
+}
+
 
 
 /* Common Styles */
@@ -97,6 +172,16 @@ button:hover, .card:hover {
     animation: fadeIn 0.5s;
 }
 
+.fade-in {
+    animation: fadeIn 1s forwards;
+}
+
+.fade-out {
+    animation: fadeOut .5s forwards;
+}
+
+
+
 @keyframes fadeIn {
     from {
         opacity: 0;
@@ -104,6 +189,10 @@ button:hover, .card:hover {
     to {
         opacity: 1;
     }
+}
+@keyframes fadeOut {
+    from { opacity: 1; }
+    to   { opacity: 0; }
 }
 
 .board {

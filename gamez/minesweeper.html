@@ -15,9 +15,10 @@
       <h1>Minesweeper</h1>
       <button id="startGame">Start Game</button>
       <div class="board"></div>
-      <button onclick="window.location.href='../arcade.html'">Return to Arcade</button>
+      <button onclick="navigateToGame('../arcade.html')">Return to Arcade</button>
     </header>
   </div>
+  <script src="utils.js"></script>
 
     <script>
       document.getElementById('startGame').addEventListener('click', function() {

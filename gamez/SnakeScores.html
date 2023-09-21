@@ -15,9 +15,8 @@
       <h2>Snake Game</h2>
       <p>Use arrow keys to move the snake and eat the apple.</p>
       <button onclick="startGame()">Play</button>
-      <button onclick="window.location.href='../arcade.html'">Return to Arcade</button>
+      <button onclick="navigateToGame('../arcade.html')">Return to Arcade</button>
     </div>
-
       
     <div id="gameOverScreen" style="display: none; text-align: center; margin-top: 50px;">
       <h2>Game Over!</h2>
@@ -26,7 +25,7 @@
       <h3>Last 5 Scores:</h3>
       <ul id="lastScoresList"></ul>
       <button onclick="restartGame()">Restart</button>
-      <button onclick="window.location.href='../arcade.html'">Return to Arcade</button>
+      <button onclick="navigateToGame('../arcade.html')">Return to Arcade</button>
 
 
     </div>
@@ -35,6 +34,7 @@
     <p>Score: <span id="score">0</span></p>
     <p id="pausedMessage">Game Paused</p>
     </div>
+    <script src="utils.js"></script>
     <script>
       const canvas = document.getElementById('gameCanvas');
       const ctx = canvas.getContext('2d');

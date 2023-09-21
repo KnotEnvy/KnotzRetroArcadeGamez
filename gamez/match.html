@@ -12,7 +12,7 @@
     <header>
         <h1>Emoji Match Game</h1>
         <p>Moves: <span id="move-counter">0</span> | Time: <span id="timer">00:00</span></p>
-        <button onclick="window.location.href='../arcade.html'">Return to Arcade</button>
+        <button onclick="navigateToGame('../arcade.html')">Return to Arcade</button>
     </header>
         </div>
     <div class="game-container">
@@ -21,6 +21,8 @@
         </main>
     </div>
     </div>
+    <script src="utils.js"></script>
+
     <script>
         const emojis = ["😀", "😃", "😄", "😁", "😆", "😅", "😂", "🤣"];
 const cardsArray = emojis.concat(emojis);  // We have pairs, so we duplicate the array

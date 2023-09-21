@@ -13,11 +13,25 @@
             <p>Pick a game any game:</p>
         </header>
         <main>
-            <button onclick="window.location.href='gamez/SnakeScores.html'">Snake</button>
-            <button onclick="window.location.href='gamez/minesweeper.html'">Minesweeper</button>
-            <button onclick="window.location.href='gamez/hangman.html'">Hangman</button>
-            <button onclick="window.location.href='gamez/match.html'">Match Game</button>
+            <div class="game-card" onclick="navigateToGame('gamez/SnakeScores.html')">
+                <img src="gamez/img/snakeCover.jpeg" alt="Snake Game">
+                <div class="game-card-title">Snake</div>
+            </div>
+        
+            <div class="game-card" onclick="navigateToGame('gamez/minesweeper.html')">
+                <img src="gamez/img/mineSweeperCover.jpeg" alt="Minesweeper Game">
+                <div class="game-card-title">Minesweeper</div>
+            </div>
+            <div class="game-card" onclick="navigateToGame('gamez/match.html')">
+                <img src="gamez/img/matchCover.jpeg" alt="Match Game">
+                <div class="game-card-title">Match</div>
+            </div>
+            <div class="game-card" onclick="navigateToGame('gamez/hangman.html')">
+                <img src="gamez/img/hangCover.jpeg" alt="Hangman Game">
+                <div class="game-card-title">Hangman</div>
+            </div>
         </main>
     </div>
+    <script src="gamez/utils.js"></script>
 </body>
 </html>
