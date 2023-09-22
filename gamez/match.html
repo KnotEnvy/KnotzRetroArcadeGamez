@@ -11,17 +11,21 @@
         <div id="startScreen" style="display: block; text-align: center; margin-top: 50px;">
     <header>
         <h1>Emoji Match Game</h1>
+        <p class="">Flip a card and try to find its match. Lowest moves and time wins!</p>
         <p>Moves: <span id="move-counter">0</span> | Time: <span id="timer">00:00</span></p>
-        <button onclick="navigateToGame('../index.html')">Return to Arcade</button>
     </header>
-        </div>
-    <!-- <div class="game-container"> -->
-        <main class="match-game-board">
-            <!-- Cards will be dynamically generated here -->
-        </main>
+
+<!-- <div class="game-container"> -->
+</div>
+    <main class="match-game-board">
+        <!-- Cards will be dynamically generated here -->
+    </main>
+    <div>
+        <button onclick="navigateToGame('../index.html')">Return to Arcade</button>
     </div>
-    </div>
-    <script src="utils.js"></script>
+</div>
+</div>
+<script src="utils.js"></script>
 
     <script>
         const emojis = ["😀", "😃", "😄", "😁", "😆", "😅", "😂", "🤣"];

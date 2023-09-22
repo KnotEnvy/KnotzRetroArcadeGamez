@@ -28,13 +28,14 @@ body {
 
 /* Game Card Style */
 .game-card {
-    border: 2px solid #a8e063;
-    border-radius: 10px;
-    overflow: hidden;
-    position: relative;
-    transition: transform 0.3s;
-    max-width: 100%; /* Ensure the card doesn't exceed its container's width */
-
+    /* ... existing styles ... */
+    border: none; /* Remove default button border */
+    background: none; /* Remove default button background */
+    cursor: pointer; /* Make it look clickable */
+    padding: 0; /* Remove default button padding */
+    display: inline-block; /* Display buttons inline */
+    margin: 10px; /* Add some spacing between buttons */
+    overflow: hidden; /* Hide any overflowing content */
 }
 
 .game-card:hover {
@@ -71,15 +72,15 @@ body {
 
 /* Game Card Title */
 .game-card-title {
-    position: absolute;
-    bottom: 0;
+    /* position: absolute; */
+    /* bottom: 0;
     left: 0;
-    right: 0;
+    right: 0; */
     background: rgba(0, 0, 0, 0.7);
     color: #fff;
     text-align: center;
     padding: 10px;
-    font-size: 24px;
+    font-size: 18px;
 }
 
 .arcade-container {
@@ -202,7 +203,7 @@ button:hover, .card:hover {
 }
 
 .cell.flagged {
-    background-color: #f0d0d0;
+    background-color: #e18787;
 }
 
 .cell.revealed {
@@ -255,6 +256,7 @@ button:hover, .card:hover {
 .card-back {
     background-color: #a8e063;
     transform: rotateY(180deg);
+
 }
 
 
