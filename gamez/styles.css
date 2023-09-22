@@ -39,7 +39,7 @@ body {
 
 .game-card:hover {
     transform: scale(1.15);
-    box-shadow: 0 0 20px rgba(0, 255, 0, 0.4);
+    box-shadow: 0 0 10px rgba(0, 255, 0, 0.4);
 }
 
 /* Game Card Image (Can be a screenshot or icon of the game) */
@@ -52,7 +52,7 @@ body {
 /* Game Card Style for larger screens */
 @media (min-width: 768px) {
     .game-card {
-        width: 150px;  /* You can adjust this value based on your preference */
+        width: 200px;  /* You can adjust this value based on your preference */
     }
 }
 
@@ -83,7 +83,7 @@ body {
 }
 
 .arcade-container {
-    max-width: 800px;
+    max-width: 600px;
     margin: 50px auto;
     padding: 40px;
     text-align: center;
@@ -117,8 +117,6 @@ h1, h2, h3 {
 .game-container, body {
     opacity: 0;
 }
-
-
 
 /* Common Styles */
 canvas, .game-container {
@@ -175,8 +173,6 @@ button:hover, .card:hover {
 .fade-out {
     animation: fadeOut .5s forwards;
 }
-
-
 
 @keyframes fadeIn {
     from {

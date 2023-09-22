@@ -11,11 +11,12 @@
         <div id="startScreen" style="display: block; text-align: center; margin-top: 50px;">
     <header>
         <h1>Hangman</h1>
-        <button onclick="navigateToGame('../arcade.html')">Return to Arcade</button>
+        <button onclick="window.location.href='../arcade.html'">Return to Arcade</button>
     </header>
     </div>
     <div class="game-container">
         <main>
+            <!-- Inside <main> and replacing the .hangman-display div -->
             <div class="hangman-display">
                 <svg width="150" height="200" viewBox="0 0 150 200">
                     <!-- Gallows -->
