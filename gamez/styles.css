@@ -9,7 +9,7 @@ body {
     background-size: cover;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    height: 100%;
     width:100vw;
     color: #333;
 
@@ -38,7 +38,7 @@ body {
 }
 
 .game-card:hover {
-    transform: scale(1.05);
+    transform: scale(1.15);
     box-shadow: 0 0 20px rgba(0, 255, 0, 0.4);
 }
 
@@ -52,7 +52,7 @@ body {
 /* Game Card Style for larger screens */
 @media (min-width: 768px) {
     .game-card {
-        width: 250px;  /* You can adjust this value based on your preference */
+        width: 150px;  /* You can adjust this value based on your preference */
     }
 }
 
@@ -82,12 +82,8 @@ body {
     font-size: 24px;
 }
 
-/* ... [rest of the styles] ... */
-
-
-
 .arcade-container {
-    max-width: 600px;
+    max-width: 800px;
     margin: 50px auto;
     padding: 40px;
     text-align: center;
@@ -216,8 +212,6 @@ button:hover, .card:hover {
 .cell.revealed {
     background-color: #e0e0e0;
 }
-
-/* ... [existing styles] */
 
 /* Emoji Match Game Styles */
 .match-game-board {
