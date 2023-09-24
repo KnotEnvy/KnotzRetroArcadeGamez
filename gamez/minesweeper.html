@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Minesweeper</title>
     <link rel="stylesheet" href="styles.css">
+    <!-- <link rel="stylesheet" href="old css/minesweeper_styles.css"> -->
   </head>
 
   <body>
@@ -17,6 +18,27 @@
 
       <button id="startGame">Start Game</button>
       <div class="board"></div>
+      <!-- Score Display -->
+      <div id="scoreDisplay">Score: 0</div>
+
+      <!-- Win/Lose Modal -->
+      <div id="winLoseModal" class="modal">
+          <div class="modal-content">
+              <span id="modalMessage"></span>
+              <button id="closeModal">Close</button>
+          </div>
+      </div>
+
+      <!-- Difficulty Selector -->
+      <select id="difficultySelector">
+          <option value="easy">Easy</option>
+          <option value="medium">Medium</option>
+          <option value="hard">Hard</option>
+      </select>
+
+      <!-- Restart Button -->
+      <button id="restartGame">Restart Game</button>
+
       <button onclick="navigateToGame('../index.html')">Return to Arcade</button>
     </header>
   </div>
@@ -65,6 +87,7 @@
       }
 
       initializeBoard();
+      
 
       function renderBoard() {
         boardEl.innerHTML = ''; // Clear the existing board
@@ -95,6 +118,47 @@
           }
         }
       }
+      let score = 0;
+
+    // Function to update the score
+    function updateScore() {
+        document.getElementById("scoreDisplay").innerText = "Score: " + score;
+    }
+
+    // Function to show win/lose modal
+    function showWinLoseModal(message) {
+        const modal = document.getElementById("winLoseModal");
+        const modalMessage = document.getElementById("modalMessage");
+        modalMessage.innerText = message;
+        modal.style.display = "block";
+    }
+
+    // Close modal event listener
+    document.getElementById("closeModal").addEventListener("click", function() {
+        document.getElementById("winLoseModal").style.display = "none";
+    });
+
+    // Adjust difficulty settings
+    function setDifficulty(difficulty) {
+        switch(difficulty) {
+            case "easy":
+                numRows = 8;
+                numCols = 8;
+                numMines = 10;
+                break;
+            case "medium":
+                numRows = 10;
+                numCols = 10;
+                numMines = 20;
+                break;
+            case "hard":
+                numRows = 12;
+                numCols = 12;
+                numMines = 40;
+                break;
+        }
+    }
+
 
       function countAdjacentMines(row, col) {
         let count = 0;
@@ -130,13 +194,18 @@
         }
 
         if (board[row][col].isMine) {
-          // Game over logic (player clicked on a mine)
-          revealAllMines();
-          alert("Game Over!");
-          initializeBoard();
-          renderBoard();
-          return;
+            // Decrease score for hitting a mine
+            score -= 10;
+            updateScore();
+            // Game over logic (player clicked on a mine)
+            revealAllMines();
+            showWinLoseModal("Game Over!");
+            initializeBoard();
+            renderBoard();
+            return;
         }
+        score += 1;
+        updateScore();
 
         // Reveal the clicked cell
         board[row][col].isRevealed = true;
@@ -147,13 +216,27 @@
         }
 
         renderBoard();
+
         // Check for win after each cell click
         if (checkWin()) {
-          alert("Congratulations! You've won!");
-          initializeBoard();
-          renderBoard();
+            showWinLoseModal("Congratulations! You've won!");
+            initializeBoard();
+            renderBoard();
         }
       }
+      // Event listener for the difficulty selector
+      document.getElementById("difficultySelector").addEventListener("change", function() {
+          setDifficulty(this.value);
+          initializeBoard();
+          renderBoard();
+      });
+
+      // Event listener for the restart button
+      document.getElementById("restartGame").addEventListener("click", function() {
+          initializeBoard();
+          renderBoard();
+      });
+
 
       function handleCellRightClick(row, col) {
         if (board[row][col].isRevealed) {
